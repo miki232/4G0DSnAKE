@@ -332,6 +332,11 @@ void    drawRays(t_ray *data)
         //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img4s, (r*8+512), (-lineH)); 
         //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img4s, (r*8+512), (lineH+lineO));
         int y;
+        //------**--**Crea un file.xpm "dinamico", ogni volta che un frame è richiesto,
+        //----- cambiando l'altezza in corrispondenza della distanza del "Muro", definito
+        //-----dalla variabile lineH
+        //----Non è il miglior modo per farlo ma ha un refresh accettabile
+        //---In questo modo è difficile applicare delle texture, o c'è da studiarci un pò
         FILE * fp;
         fp = fopen ("file.xpm", "w");
         fprintf(fp, "/* XPM */\n static char *dddsuca[] = {\n");
