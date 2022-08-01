@@ -15,7 +15,10 @@ typedef struct s_ray
     int     x;
     int     ssa;
     char     color;
+	int w,a,d,s;
 }           t_ray;
+
+
 
 typedef enum e_keys
 {
