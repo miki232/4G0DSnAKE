@@ -25,7 +25,7 @@ C_LGRN = \033[92m
 C_LMGN = \033[95m
 C_END = \033[0m
 
-SRC=  main.c
+SRC=  ray.c
 
 PRINTF = ft_printf
 
@@ -39,7 +39,7 @@ OBJ = $(SRC:.c=.o)
 
 RM = rm -f
 
-CC		=	clang 
+CC		=	clang -g
 CFLAGS	= 
 
 LIBS = -framework OpenGL -lm -framework AppKit
@@ -67,8 +67,6 @@ fclean:
 	${RM} $(NAME) ${OBJ}
 	@rm libmlx.dylib
 	@make -C ./mlx clean
-	@make -C ./ft_printf fclean
-	@make -C ./libft fclean
 	@echo "$(C_LMGN)➜ [$(NAME)] Library has been deleted Successfully !$(C_END)"
 
 

@@ -1,5 +1,6 @@
 #ifndef RAY_H
 # define RAY_H
+#include <unistd.h>
 
 typedef struct s_ray
 {
@@ -9,9 +10,14 @@ typedef struct s_ray
     void    *img2;
     void    *img3;
     void    *img4;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
     void    *background;
     void    *img4s;
     int     y;
+	int		gliss;
     int     x;
     int     ssa;
     char     color;

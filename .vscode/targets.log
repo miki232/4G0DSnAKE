@@ -1,0 +1,359 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-apple-darwin11.3.0
+ 
+
+# Make data base, printed on Sun Aug  7 21:44:23 2022
+
+# Variables
+
+ 
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# makefile (from `Makefile', line 38)
+OBJ = $(SRC:.c=.o)
+# makefile (from `Makefile', line 28)
+SRC = ray.c
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /Users/mtoia/Desktop/4G0DSnAKE
+# makefile
+SHELL = /bin/sh
+# makefile (from `Makefile', line 40)
+RM = rm -f
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# makefile (from `Makefile', line 36)
+MLX = ./libmlx.dylib
+# environment
+_ = /usr/bin/make
+# makefile (from `Makefile', line 43)
+CFLAGS = 
+# makefile (from `Makefile', line 34)
+HDRS = mlx/
+# makefile (from `Makefile', line 20)
+T_CLR = \033[K
+# makefile (from `Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+__CFBundleIdentifier = com.microsoft.VSCode
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/_b/ypqmv47n12bdr4_qn4p1mc3r0000gn/T/vscode-ipc-fe660710-a49d-4df0-a749-5ff0b8a02142.sock
+# environment
+VSCODE_CWD = /
+# makefile (from `Makefile', line 22)
+C_GRN = \033[32m
+# environment
+PATH = /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+# makefile (from `Makefile', line 26)
+C_END = \033[0m
+# makefile (from `Makefile', line 15)
+GREENGREEN = \033[38;5;46m
+# environment
+VSCODE_LOG_STACK = false
+# environment
+ 
+ELECTRON_RUN_AS_NODE = 1
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# makefile (from `Makefile', line 47)
+NB = $(words $(FILES))
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.ZVQtbXLOf1/Listeners
+# makefile (from `Makefile', line 19)
+T_NRM = \033[25m
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = /private/tmp/com.apple.launchd.QvBAIof0Ma/org.xquartz:0
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+PWD = /Users/mtoia/Desktop/4G0DSnAKE
+# makefile (from `Makefile', line 18)
+T_BLK = \033[5m
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /Users/mtoia
+# default
+MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
+# environment
+VSCODE_CODE_CACHE_PATH = /Users/mtoia/Library/Application Support/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
+# environment
+LOGNAME = mtoia
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+XPC_FLAGS = 0x0
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+SHLVL = 1
+# makefile (from `Makefile', line 23)
+C_LYLW = \033[93m
+# makefile (from `Makefile', line 32)
+LIBFT = libft
+# makefile (from `Makefile', line 42)
+CC = clang -g
+# default
+MAKE_VERSION := 3.81
+# environment
+USER = mtoia
+# makefile
+.DEFAULT_GOAL := Ray
+# makefile (from `Makefile', line 21)
+C_YLW = \033[33m
+# makefile (from `Makefile', line 13)
+NAME = Ray
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# default
+MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
+# default
+.VARIABLES := 
+# environment
+TMPDIR = /var/folders/_b/ypqmv47n12bdr4_qn4p1mc3r0000gn/T/
+# makefile (from `Makefile', line 24)
+C_LGRN = \033[92m
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /Users/mtoia/Library/Application Support/Code/1.68.1-main.sock
+# makefile (from `Makefile', line 25)
+C_LMGN = \033[95m
+# makefile
+MAKEFLAGS = Rrqp
+# environment
+MFLAGS = -Rrqp
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.298813.298819
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# automatic
++F = $(notdir $+)
+# environment
+__CF_USER_TEXT_ENCODING = 0x1F5:0x0:0x0
+# environment
+COMMAND_MODE = unix2003
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# makefile (from `Makefile', line 30)
+PRINTF = ft_printf
+# environment
+LC_ALL = C
+# makefile (from `Makefile', line 16)
+ 
+RESET = \033[0m
+# makefile (from `Makefile', line 45)
+LIBS = -framework OpenGL -lm -framework AppKit
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# default
+.INCLUDE_DIRS = /usr/local/include
+# environment
+MAKELEVEL := 0
+# environment
+LANG = C
+# environment
+VSCODE_PID = 644
+# variable set hash-table stats:
+# Load=86/1024=8%, Rehash=0, Collisions=6/120=5%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 16777230, inode 1304154): 22 files, no impossibilities.
+
+# 22 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+%.o: %.c
+#  commands to execute (from `Makefile', line 50):
+	@$(CC) -I ${HDRS} -c $< -o $@
+	
+
+# 1 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+reb:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+all: Ray
+#  Phony target (prerequisite of .PHONY).
+#  Command-line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/4=0%
+#  commands to execute (from `Makefile', line 60):
+	make clean
+	
+
+.PHONY: all clean fclean re reb
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+ray.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-07 21:43:55
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-08-07 21:44:19
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+fclean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 67):
+	${RM} $(NAME) ${OBJ}
+	@rm libmlx.dylib
+	@make -C ./mlx clean
+	@echo "$(C_LMGN)➜ [$(NAME)] Library has been deleted Successfully !$(C_END)"
+	
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+re: fclean Ray
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+run: all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 63):
+	@${RM} $(OBJ)
+	@echo "$(C_LMGN)➜ [$(NAME)] Objects have been cleaned Successfully !$(C_END)"
+	
+
+Ray: ray.o
+#  Implicit rule search has not been done.
+#  Last modified 2022-08-07 21:44:10
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/4=0%
+#  commands to execute (from `Makefile', line 53):
+	@make -C ./mlx
+	@mv mlx/libmlx.dylib .
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(MLX) $(LIBS)
+	@echo "$(C_LGRN)➜ [$(NAME)] Program has been Compiled Successfully !$(C_END)"
+	
+
+ray.o: ray.c
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `ray'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+ 
+# @ := ray.o
+# automatic
+# % := 
+# automatic
+# * := ray
+# automatic
+# + := ray.c
+# automatic
+# | := 
+# automatic
+# < := ray.c
+# automatic
+# ^ := ray.c
+# automatic
+# ? := ray.c
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/14=7%
+#  commands to execute (from `Makefile', line 50):
+	@$(CC) -I ${HDRS} -c $< -o $@
+	
+
+# files hash-table stats:
+# Load=13/1024=1%, Rehash=0, Collisions=0/39=0%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 1
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+# strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
+
+# Finished Make data base on Sun Aug  7 21:44:23 2022
+
+ 

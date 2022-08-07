@@ -1,0 +1,10 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/mtoia/Desktop/4G0DSnAKE'
+clang -g -I mlx/ -c ray.c -o ray.o
+make -C ./mlx
+ 
+mv mlx/libmlx.dylib .
+clang -g  -o Ray ray.o ./libmlx.dylib -framework OpenGL -lm -framework AppKit
+echo "\033[92m➜ [Ray] Program has been Compiled Successfully !\033[0m"
+make: Leaving directory `/Users/mtoia/Desktop/4G0DSnAKE'
+ 

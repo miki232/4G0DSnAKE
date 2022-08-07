@@ -13,41 +13,30 @@ float px, py, pdx,pdy,pa;//player position
 int y , x;
 void    drawRays(t_ray *data);
 
+void	my_mlx_pixel_put(t_ray *data, int x, int y, int color)
+{
+	char	*dst;
+    
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
 void    drawSquare(float px, float py, int dms, t_ray *data, int color)
 {
+    
     int temp = py+1;
     while (temp <(py +dms - 1))
     {
         int tempx = px+1;
         while (tempx <= (px + dms - 1))
         {
-            mlx_pixel_put(data->mlx_ptr, data->win_ptr, tempx, temp, color);
+            my_mlx_pixel_put(data, tempx, temp, color);
             tempx++;
         }
         temp++;
     }
 }
 
-void    draw(int x, int y, int hy, t_ray *data, FILE *fp)
-{
-    int tempy = y;
-    int y1 = 0;
-    int x1 = 0;
-    while (y1 < hy)
-    {
-        //printf("%i %%\n", y1*100/hy);
-        fprintf(fp, "%c        %c%c\n", '"', '"', ',');
-        // x1 = 0;
-        // while (x1 < 8)
-        // {
-        //     mlx_pixel_put(data->mlx_ptr, data->win_ptr, x+x1, (160-hy/2)+y1, data->color);
-        //     x1++;
-        // }
-        y1++;
-    }
-    fprintf(fp, "%c        %c\n};\n", '"', '"');
-    fclose(fp);
-}
 
 void    drawPlayer(t_ray *data)
 {
@@ -92,7 +81,7 @@ int All_Textures[]=               //all 32x32 textures
  1,1,1,1,1,1,1,1, 0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1, 0,0,0,0,0,0,0,0, 
  1,1,1,1,1,1,1,1, 0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1, 0,0,0,0,0,0,0,0, 
  1,1,1,1,1,1,1,1, 0,0,0,0,0,0,0,0, 1,1,1,1,1,1,1,1, 0,0,0,0,0,0,0,0, 
- //Brick
+
  0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
  1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1,
  1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1,
@@ -118,6 +107,24 @@ int All_Textures[]=               //all 32x32 textures
  1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1,
  1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1,
  1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1,
+ 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
+
+ 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
+
+ 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
+ 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0, 0,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,0,
  0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
 
  0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0,
@@ -136,7 +143,7 @@ int map[]=
     1,1,1,1,1,1,1,1,
     1,0,0,0,0,0,0,1,
     1,0,1,0,0,0,0,1,
-    1,0,0,1,0,0,0,1,
+    1,0,0,2,2,0,0,1,
     1,0,1,0,0,0,0,1,
     1,0,1,0,0,1,0,1,
     1,0,0,0,0,0,0,1,
@@ -159,11 +166,11 @@ void    drawMap2D(t_ray *data)
                 mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, xo, yo);
                 //data->color = '0';
             }
-            if (map[sy*mapX+sx] == 2)
-            {
-                mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, xo, yo);
-                //data->color = 'F';
-            }
+            // if (map[sy*mapX+sx] == 2)
+            // {
+            //     mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, xo, yo);
+            //     //data->color = 'F';
+            // }
             //drawSquare(xo , yo , mapS, data, color);
         }
     }
@@ -211,11 +218,14 @@ int    init(t_ray *data)
     }
 
     
-    mlx_clear_window(data->mlx_ptr, data->win_ptr);
+    //mlx_clear_window(data->mlx_ptr, data->win_ptr);
     //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->background, (512), (0));
     drawMap2D(data);
     drawPlayer(data);
     //data->ssa = 0;
+    // mlx_destroy_image(data->mlx_ptr, data->img);
+    // data->img = mlx_new_image(data->mlx_ptr, 300, 320);
+    // data->addr= mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
     drawRays(data);
     data->ssa = 0;
    
@@ -230,6 +240,12 @@ int    init(t_ray *data)
     //     }
     //     y++;
     // }    
+    
+    mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, data->gliss,0);
+    mlx_destroy_image(data->mlx_ptr, data->img);
+    data->img = mlx_new_image(data->mlx_ptr, 60, 320);
+    data->addr= mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
+    
     return (0);
 }
 
@@ -279,6 +295,42 @@ float   dist(float ax, float ay, float bx, float by, float ang)
 {
     return (sqrt((bx-ax)*(bx-ax)+ (by-ay)*(by-ay)));
 }
+
+void    draw(int x, int lineO, int lineH, int Txt[], t_ray *data, FILE *fp)
+{
+    int s=0;
+    int tempy = 8;
+    //float ty_step=32.0/(float)lineH;
+    //float   ty_off=0;
+    //if (lineH>320){ty_off=(lineH-320)/2.0; lineH=320;}
+    //int lineOff = 160-(lineH>>1);
+    int y1 = 0;
+    int x1 = 0;
+    //float ty=ty_off*ty_step;
+    //float tx=(int)(rx/2.0)%32;
+    while (y1 < lineH)
+    {
+        //fprintf(fp, "%c", '"');
+        //int c = All_Textures[(int)(ty)*32];
+        //printf("%i %%\n", y1*100/lineH);
+        //printf ("%d\n", c);
+        //fprintf(fp, "%c%d%d%d%d%d%d%d%d%c%c\n", '"',Txt[c],Txt[c],Txt[c+2],Txt[c+3],Txt[c+4],Txt[c+5],Txt[c+6],Txt[c+7], '"', ',');
+        fprintf(fp, "%c        %c%c\n", '"', '"', ',');
+       
+        // x1 = 0;
+        // while (x1 < 8)
+        // {
+        //     mlx_pixel_put(data->mlx_ptr, data->win_ptr, x+x1, (160-hy/2)+y1, data->color);
+        //     x1++;
+        // }
+        //fprintf(fp, "%c%c\n",'"', ',');
+        //ty=ty_step;
+        y1++;
+    }
+    fprintf(fp, "%c        %c\n};\n", '"', '"');
+    fclose(fp);
+   
+}
 //----------------------------RayCast-----Engine--------------//
 void    drawRays(t_ray *data)
 {
@@ -287,10 +339,11 @@ void    drawRays(t_ray *data)
     char Lg= '0';
     int r,mx,my,mp,dof; float rx,ry,ra,xo,yo,disT;
     ra = pa-DR*30; if(ra<0){ ra+=2*pi;} if(ra>2*pi){ ra-=2*pi;}
-    for(r=0; r<60; r++)
+    for(r=0; r<64; r++)
     {
         //Linea Orizzontale
         dof = 0;
+        int y=0;
         float disH=1000000,hx=px,hy=py;
         float aTan=-1/tan(ra);
         if (ra>pi){ry = (((int)py>>6)<<6)-0.0001; rx=(py-ry)*aTan+px; yo=-64; xo=-yo*aTan;} //looking up
@@ -298,11 +351,13 @@ void    drawRays(t_ray *data)
         if (ra == 0 || ra==pi) { rx=px; ry=py; dof=8;} //looking straight left or right
         while (dof<8)
         {
+            
             mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*mapX+mx;
             //if (mp>0 && mp<mapX*mapY && map[mp] > 1) { hx=rx; hy=ry; disH=dist(px,py,hx,hy,ra); dof = 8; data->color = 'F';} 
-            if(mp>0 && mp<mapX*mapY && map[mp] == 1){ hx=rx; hy=ry; disH=dist(px,py,hx,hy,ra); dof = 8; data->color ='0';}//   hit wall       
-            
-            else{ rx+=xo; ry+=yo; dof+=1;}//next  
+            if(mp>0 && mp<mapX*mapY && map[mp] == 1){ hx=rx; hy=ry; disH=dist(px,py,hx,hy,ra); dof = 8; data->color ='0'; data->ssa=0;}//   hit wall       
+            if(mp>0 && mp<mapX*mapY && map[mp] ==2){ hx=rx; hy=ry; disH=dist(px,py,hx,hy,ra);dof = 8; data->color ='F'; data->ssa=1; data->ssa=1;}
+            else{ rx+=xo; ry+=yo; dof+=1;}//next 
+            //if(mp>0 && mp<mapX*mapY && map[mp] ==2){printf("%d", map[mp]);}
         }
         //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img2, rx, ry);
         
@@ -318,39 +373,49 @@ void    drawRays(t_ray *data)
         {
             mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*mapX+mx;
             //if (mp>0 && mp<mapX*mapY && map[mp] > 1) {vx=rx; vy=ry; disV=dist(px,py,vx,vy,ra);dof = 8 ; data->color = 'F';} 
-            if(mp>0 && mp<mapX*mapY && map[mp] ==1){ vx=rx; vy=ry; disV=dist(px,py,vx,vy,ra);dof = 8; data->color ='0';}//   hit wall
-                  
+            if(mp>0 && mp<mapX*mapY && map[mp] ==1){ vx=rx; vy=ry; disV=dist(px,py,vx,vy,ra);dof = 8; data->color ='0'; data->ssa=0;}//   hit wall
+            if(mp>0 && mp<mapX*mapY && map[mp] ==2){ vx=rx; vy=ry; disV=dist(px,py,vx,vy,ra);dof = 8; data->color ='F'; data->ssa=1;}      
             else{   rx+=xo; ry+=yo; dof+=1;}//next  
+            //if(mp>0 && mp<mapX*mapY && map[mp] ==2){printf("%d", map[mp]);}
         }
         if (disV<disH){ rx=vx; ry=vy; disT=disV; Rg = 'A';}  
         if (disH<disV){ rx=hx; ry=hy; disT=disH; Rg = 'F'; }
-        //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img3, rx, ry);
+        mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img3, rx, ry);
         //--Draw 3D Walls--
         float ca=pa-ra; if(ca<0){ ca+=2*pi;} if(ca>2*pi){ ca-=2*pi;} disT=disT*cos(ca);//fix fisheye
         float lineH=(mapS*320)/disT; if (lineH>320){lineH=320;}
         float lineO=160-lineH/2;
         //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img4s, (r*8+512), (-lineH)); 
         //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img4s, (r*8+512), (lineH+lineO));
-        int y;
         //------**--**Crea un file.xpm "dinamico", ogni volta che un frame è richiesto,
         //----- cambiando l'altezza in corrispondenza della distanza del "Muro", definito
         //-----dalla variabile lineH
         //----Non è il miglior modo per farlo ma ha un refresh accettabile
         //---In questo modo è difficile applicare delle texture, o c'è da studiarci un pò
-        FILE * fp;
-        fp = fopen ("file.xpm", "w");
-        fprintf(fp, "/* XPM */\n static char *dddsuca[] = {\n");
-        fprintf(fp, "%c%d %d %d %d %c%c\n", '"', 8, (int)lineH, 1, 1, '"', ',');
-        fprintf(fp, "%c c #%c%d%d%d%c%d%c%c\n", '"', Rg,0,0,0,data->color,0, '"', ',');
-        fprintf(fp, "/* pixels */\n");
-        draw(r*4+512, 320, (int)lineH, data, fp);
+        //FILE * fp;
+        //printf("%d", mp);
+        
+        //fp = fopen ("file.xpm", "w");
+        //fprintf(fp, "/* XPM */\n static char *dddsuca[] = {\n");
+        //fprintf(fp, "%c%d %d %d %d %c%c\n", '"', 8, (int)lineH, 1, 1, '"', ',');
+        //fprintf(fp, "%c c #%c%d%d%d%c%d%c%c\n", '"', Rg,0,0,0,data->color,0, '"', ','); //for red text
+        //fprintf(fp, "%c1  c #%d%d%d%d%d%d%c%c\n", '"', 8,0,8,0,8,0, '"', ',');
+        //fprintf(fp, "%c0  c #%c%c%c%c%c%c%c%c\n", '"', 'F','F','F','F','F','F', '"', ',');
+        //fprintf(fp, "/* pixels */\n");
+        //draw(r*8+512, (int)lineO, (int)lineH, All_Textures, data, fp);
+        //printf("%d\n", map[r]);
+        //drawSquare(r*8+512, ry, lineH, data, 0xFFFFFF);
+        //printf("%d\n", (int)lineH);
         temps = (int)lineH;
-        data->img4 = mlx_xpm_file_to_image(data->mlx_ptr, "file.xpm", &tt, &temps);
-        mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img4, (r*8+512), (lineO));
+        data->gliss = r+512;
+        //data->img4 = mlx_xpm_file_to_image(data->mlx_ptr, "file.xpm", &tt, &temps);
+        //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img4, (r*8+512), (lineO));
         //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img4s, (r*8+512), (lineH+lineO));
         ra+=DR; if(ra<0){ ra+=2*pi;} if(ra>2*pi){ ra-=2*pi;}
         //data->ssa = 0;
-    }   
+    }
+    
+    //printf("\n");
 }
 
 int    buttons(int keycode, t_ray *data)
@@ -378,7 +443,9 @@ int main()
     data.mlx_ptr = mlx_init();
     data.win_ptr = mlx_new_window(data.mlx_ptr, 1024, 512, "RayCast");
     data.img = mlx_xpm_file_to_image(data.mlx_ptr, "wall.xpm", &pss, &pss);
-    //data.img4s = mlx_xpm_file_to_image(data.mlx_ptr, "wll.xpm", &w, &h1);
+    //data.img = mlx_new_image(data.mlx_ptr, 60, 320);
+    data.addr= mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
+    data.img4s = mlx_xpm_file_to_image(data.mlx_ptr, "wll.xpm", &w, &h1);
     data.img2 = mlx_xpm_file_to_image(data.mlx_ptr, "pg.xpm", &pw, &pw);
     data.img3 = mlx_xpm_file_to_image(data.mlx_ptr, "dot.xpm", &pw, &pw);
     data.img4 = mlx_xpm_file_to_image(data.mlx_ptr, "wll.xpm",&h1, &h);
@@ -387,6 +454,7 @@ int main()
     //mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img2, 300, 300);
     //drawPlayer(&data);
     //drawMap2D(&data);
+    
     mlx_loop_hook(data.mlx_ptr, init, &data);
     mlx_hook(data.win_ptr, 2, 1L << 0, ButtonDown, &data);
     mlx_hook(data.win_ptr, 3, 1L << 1, ButtonUp, &data);
