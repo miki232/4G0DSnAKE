@@ -176,6 +176,9 @@ void    drawMap2D(t_ray *data)
     }
     
 }
+
+#include    "wass.ppm"
+
 int    init(t_ray *data)
 {
     pdx=cos(pa)*5;
@@ -217,34 +220,33 @@ int    init(t_ray *data)
         if(map[ipy_sub_yo*mapX + ipx]==0){  py-=pdy*0.5;}
     }
 
-    
-    //mlx_clear_window(data->mlx_ptr, data->win_ptr);
-    //mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->background, (512), (0));
-    drawMap2D(data);
-    drawPlayer(data);
-    //data->ssa = 0;
-    // mlx_destroy_image(data->mlx_ptr, data->img);
-    // data->img = mlx_new_image(data->mlx_ptr, 300, 320);
-    // data->addr= mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
-    drawRays(data);
-    data->ssa = 0;
-   
-    // y = 0;
-    // while(y<512)
-    // {
-    //     x = 0;
-    //     while(x<1024)
-    //     {
-    //         mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, 0x808080);
-    //         x++;
-    //     }
-    //     y++;
-    // }    
-    
-    mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, data->gliss,0);
-    mlx_destroy_image(data->mlx_ptr, data->img);
-    data->img = mlx_new_image(data->mlx_ptr, 60, 320);
-    data->addr= mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
+    int x,y;
+    for(y=0;y<32;y++)
+    {
+        for(x=0;x<32;x++)
+        {
+            int pixel=(y*32+x)*3;
+            int red =walls[pixel+0];
+            int green =walls[pixel+1];
+            int blue =walls[pixel+2];
+            //int xtemp = x*8;
+            int ytemp = y*5;
+            while (ytemp<((y*5)+5))
+            {
+                int xtemp = x*5;
+                while (xtemp<((x*5)+5))
+                {
+                    my_mlx_pixel_put(data, xtemp, ytemp, (red<<16 | green <<8 | blue));
+                    xtemp++;
+                }
+                ytemp++;
+            }
+        }
+    }
+    mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0,0);
+    //mlx_destroy_image(data->mlx_ptr, data->img);
+    //data->img = mlx_new_image(data->mlx_ptr, 60, 320);
+    //data->addr= mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
     
     return (0);
 }
@@ -442,8 +444,8 @@ int main()
 
     data.mlx_ptr = mlx_init();
     data.win_ptr = mlx_new_window(data.mlx_ptr, 1024, 512, "RayCast");
-    data.img = mlx_xpm_file_to_image(data.mlx_ptr, "wall.xpm", &pss, &pss);
-    //data.img = mlx_new_image(data.mlx_ptr, 60, 320);
+    //data.img = mlx_xpm_file_to_image(data.mlx_ptr, "wall.xpm", &pss, &pss);
+    data.img = mlx_new_image(data.mlx_ptr, 400, 400);
     data.addr= mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
     data.img4s = mlx_xpm_file_to_image(data.mlx_ptr, "wll.xpm", &w, &h1);
     data.img2 = mlx_xpm_file_to_image(data.mlx_ptr, "pg.xpm", &pw, &pw);
@@ -459,4 +461,77 @@ int main()
     mlx_hook(data.win_ptr, 2, 1L << 0, ButtonDown, &data);
     mlx_hook(data.win_ptr, 3, 1L << 1, ButtonUp, &data);
     mlx_loop(data.mlx_ptr);    
+}
+void    drawSprite()
+{
+int x,y,s;
+ //if(px<sp[0].x+30 && px>sp[0].x-30 && py<sp[0].y+30 && py>sp[0].y-30){ printf("ok\n");} //pick up key 	
+ //if(px<sp[3].x+30 && px>sp[3].x-30 && py<sp[3].y+30 && py>sp[3].y-30){ gameState=4;} //enemy kills
+
+ //enemy attack
+ int spx=(int)sp[3].x>>6,          spy=(int)sp[3].y>>6;          //normal grid position
+ int spx_add=((int)sp[3].x+15)>>6, spy_add=((int)sp[3].y+15)>>6; //normal grid position plus     offset
+ int spx_sub=((int)sp[3].x-15)>>6, spy_sub=((int)sp[3].y-15)>>6; //normal grid position subtract offset
+ if(sp[3].x>px && mapW[spy*8+spx_sub]==0){ sp[3].x-=0.04;}
+ if(sp[3].x<px && mapW[spy*8+spx_add]==0){ sp[3].x+=0.04;}
+ if(sp[3].y>py && mapW[spy_sub*8+spx]==0){ sp[3].y-=0.04;}
+ if(sp[3].y<py && mapW[spy_add*8+spx]==0){ sp[3].y+=0.04;}
+
+ for(s=0;s<4;s++)
+ {
+  float sx=sp[s].x-px; //temp float variables
+  float sy=sp[s].y-py;
+  float sz=sp[s].z;
+
+  float CS=cos(degToRad(pa)), SN=sin(degToRad(pa)); //rotate around origin
+  float a=sy*CS+sx*SN; 
+  float b=sx*CS-sy*SN; 
+  sx=a; sy=b;
+
+  sx=(sx*108.0/sy)+(120/2); //convert to screen x,y
+  sy=(sz*108.0/sy)+( 80/2);
+
+  int scale=32*80/b;   //scale sprite based on distance
+  if(scale<0){ scale=0;} if(scale>120){ scale=120;}  
+
+  //texture
+  float t_x=0, t_y=31, t_x_step=31.5/(float)scale, t_y_step=32.0/(float)scale;
+
+  for(x=sx-scale/2;x<sx+scale/2;x++)
+  {
+   t_y=31;
+   
+   for(y=0;y<scale;y++)
+   {
+    //printf("%d\n", sp[s].state);
+    if(sp[s].state==1 && x>0 && x<120 && b<depth[x])
+    {
+        //printf("%d\n", x);
+     int pixel=((int)t_y*32+(int)t_x)*3+(sp[s].map*32*32*3);
+     int red   =sprites[pixel+0];
+     int green =sprites[pixel+1];
+     int blue  =sprites[pixel+2];
+     color = (red<<16 | green <<8 | blue);
+     if(red!=255 || green!=0 || blue!=255) //dont draw if purple
+     {
+        int temp = y*5;
+        while (temp <((y*5)+5))
+        {  
+            int tempx = x*5;
+            while (tempx <= ((x*5)+5))
+            {
+                my_mlx_pixel_put2(tempx,sy*4-temp); //draw point 
+                tempx++;
+            }
+            temp++;
+        }
+            
+     }
+     t_y-=t_y_step; if(t_y<0){ t_y=0;}
+    }
+   }
+   t_x+=t_x_step;
+  }
+ }
+ //mlx_put_image_to_window(data.mlx_ptr,data.win_ptr, data.img4, 0,0 );
 }

@@ -8,11 +8,10 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This program built for i386-apple-darwin11.3.0
  
 
-# Make data base, printed on Sun Aug  7 21:44:23 2022
+# Make data base, printed on Mon Aug  8 20:33:01 2022
 
 # Variables
 
- 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
@@ -54,7 +53,7 @@ VSCODE_VERBOSE_LOGGING = true
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/_b/ypqmv47n12bdr4_qn4p1mc3r0000gn/T/vscode-ipc-fe660710-a49d-4df0-a749-5ff0b8a02142.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/_b/ypqmv47n12bdr4_qn4p1mc3r0000gn/T/vscode-ipc-dabe8dff-3736-455c-9af2-ecce270959e6.sock
 # environment
 VSCODE_CWD = /
 # makefile (from `Makefile', line 22)
@@ -68,20 +67,19 @@ GREENGREEN = \033[38;5;46m
 # environment
 VSCODE_LOG_STACK = false
 # environment
- 
 ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # makefile (from `Makefile', line 47)
 NB = $(words $(FILES))
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.ZVQtbXLOf1/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.LGTC7dJLWP/Listeners
 # makefile (from `Makefile', line 19)
 T_NRM = \033[25m
 # automatic
 %F = $(notdir $%)
 # environment
-DISPLAY = /private/tmp/com.apple.launchd.QvBAIof0Ma/org.xquartz:0
+DISPLAY = /private/tmp/com.apple.launchd.PwJK0OWWA1/org.xquartz:0
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -101,7 +99,7 @@ VSCODE_CODE_CACHE_PATH = /Users/mtoia/Library/Application Support/Code/CachedDat
 # environment
 LOGNAME = mtoia
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
@@ -171,7 +169,6 @@ PRINTF = ft_printf
 # environment
 LC_ALL = C
 # makefile (from `Makefile', line 16)
- 
 RESET = \033[0m
 # makefile (from `Makefile', line 45)
 LIBS = -framework OpenGL -lm -framework AppKit
@@ -186,7 +183,7 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 644
+VSCODE_PID = 593
 # variable set hash-table stats:
 # Load=86/1024=8%, Rehash=0, Collisions=6/120=5%
 
@@ -196,9 +193,9 @@ VSCODE_PID = 644
 
 # Directories
 
-# . (device 16777230, inode 1304154): 22 files, no impossibilities.
+# . (device 16777230, inode 1304154): 32 files, no impossibilities.
 
-# 22 files, no impossibilities in 1 directories.
+# 32 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -238,7 +235,7 @@ all: Ray
 # Not a target:
 ray.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-07 21:43:55
+#  Last modified 2022-08-08 19:16:28
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -253,7 +250,7 @@ ray.c:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-07 21:44:19
+#  Last modified 2022-08-08 15:55:05
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -300,7 +297,7 @@ clean:
 
 Ray: ray.o
 #  Implicit rule search has not been done.
-#  Last modified 2022-08-07 21:44:10
+#  Last modified 2022-08-08 19:16:10
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # variable set hash-table stats:
@@ -315,11 +312,10 @@ Ray: ray.o
 ray.o: ray.c
 #  Implicit rule search has been done.
 #  Implicit/static pattern stem: `ray'
-#  File does not exist.
+#  Last modified 2022-08-08 19:16:09
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
- 
 # @ := ray.o
 # automatic
 # % := 
@@ -341,6 +337,7 @@ ray.o: ray.c
 	@$(CC) -I ${HDRS} -c $< -o $@
 	
 
+ 
 # files hash-table stats:
 # Load=13/1024=1%, Rehash=0, Collisions=0/39=0%
 # VPATH Search Paths
@@ -354,6 +351,6 @@ ray.o: ray.c
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun Aug  7 21:44:23 2022
+# Finished Make data base on Mon Aug  8 20:33:01 2022
 
  
