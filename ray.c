@@ -61,8 +61,8 @@ typedef struct
     int type; //static, key, enemy
     int state; //on off
     int map; //texture to show
-    int x,y,z; //position
-}spritess; spritess sp[4];
+    float x,y,z; //position
+}spritess; spritess sp[5];
 
 
 //------------------------------------------------------------------//
@@ -74,8 +74,8 @@ int mapW[]=         //wallsmap
     1,1,1,1,1,2,2,3,
     1,0,0,1,0,0,0,1,
     1,0,0,4,0,2,0,1,
-    1,4,0,1,0,0,0,1,
-    1,0,0,0,0,0,0,1,
+    1,1,4,1,0,2,0,1,
+    1,0,0,0,0,2,0,1,
     1,0,0,0,0,0,0,1,
     1,0,0,0,0,0,0,1,
     1,1,1,1,1,1,1,1,
@@ -228,41 +228,84 @@ void    clear()
 
 void    drawSprite()
 {
-    float sx=sp[0].x-px; //temp float variables
-    float sy=sp[0].y-py;
-    float sz=sp[0].z;
-    float CS=cos(degToRad(pa)), SN=sin(degToRad(pa)); //rotate around origin
-    float a=sy*CS+sx*SN; 
-    float b=sx*CS-sy*SN; 
-    sx=a; sy=b;
-    sx=(sx*108.0/sy)+(120/2); //convert to screen x,y
-    sy=(sz*108.0/sy)+( 80/2);
-    int x,y;
-    int scale=32*80/b;   //scale sprite based on distance
-    for(x=sx-scale/2;x<sx+scale/2;x++)
+    sp[2].state=1;
+    int x,y,s;
+    if(px<sp[0].x+30 && px>sp[0].x-30 && py<sp[0].y+30 && py>sp[0].y-30){ sp[0].state=0;}
+    if(px<sp[3].x+30 && px>sp[3].x-30 && py<sp[3].y+30 && py>sp[3].y-30){ gameState=4;}
+
+    //enemy collision //loop for 2 enemy
+    for(int en=3;en<5;en++)
     {
-        for(y=0;y<scale;y++)
+        int spx=(int)sp[en].x>>6,  spy=(int)sp[en].y>>6;                  //normal grid position
+        int spx_add=((int)sp[en].x+15)>>6,  spy_add=((int)sp[en].y+15)>>6; //normal grid position plus offset
+        int spx_sub=((int)sp[en].x-15)>>6,  spy_sub=((int)sp[en].y-15)>>6; //normal grid position minus offset
+
+        //enemy move
+        
+        if(sp[en].x>px && mapW[spy*8+spx_sub]==0){ sp[en].x-=0.5;}
+        //---AI-?--if(mapW[spy*8+spx_sub]>0 || mapW[spy*8+spx_add] >0 || mapW[spy_sub*8+spx]>0 || mapW[spy_add*8+spx]>0){ sp[3].x+=10; sp[3].y-=10;} maybe an sort of AI to Raggirare the walls
+        if(sp[en].x<px && mapW[spy*8+spx_add]==0){ sp[en].x+=0.5;}
+        if(sp[en].y>py && mapW[spy_sub*8+spx]==0){ sp[en].y-=0.5;}
+        if(sp[en].y<py && mapW[spy_add*8+spx]==0){ sp[en].y+=0.5;}
+    }
+
+    for(s=0;s<5;s++)
+    {
+        //if(px<sp[2].x+40 && px>sp[2].x-40 && py<sp[2].y+40 && py>sp[2].y-40){ sp[2].state=0;}
+        float sx=sp[s].x-px; //temp float variables
+        float sy=sp[s].y-py;
+        float sz=sp[s].z;
+        float CS=cos(degToRad(pa)), SN=sin(degToRad(pa)); //rotate around origin
+        float a=sy*CS+sx*SN; 
+        float b=sx*CS-sy*SN; 
+        sx=a; sy=b;
+        sx=(sx*108.0/sy)+(120/2); //convert to screen x,y
+        sy=(sz*108.0/sy)+( 80/2);
+        
+        int scale=32*80/b;   //scale sprite based on distance
+        if (scale<0){ scale=0;} if(scale>120){ scale=120;}
+
+        //loading texture
+        float t_x=0, t_y=0, t_x_step=31.5/(float)scale, t_y_step=32.0/(float)scale;
+       
+        for(x=sx-scale/2;x<sx+scale/2;x++)
         {
-            //printf("%d\n", sp[s].state);
-            if(sx>0 && sx<120 && b<depth[x])
+            t_y=31;
+            for(y=0;y<scale;y++)
             {
-                color = 0xF0FF00;
-                int temp = y*5;
-                //printf("%d  %f\n", x, sy*4.5-temp);
-                while (temp <((y*5)+5))
-                {  
-                    int tempx = x*5;
-                    while (tempx <= ((x*5)+5))
+                //printf("%d\n", sp[s].state);
+                if(sp[s].state==1 && x>0 && x<120 && b<depth[x])
+                {
+                     int pixel=((int)t_y*32+(int)t_x)*3+(sp[s].map*32*32*3);
+                    int red =sprites[pixel+0];
+                    int green =sprites[pixel+1];
+                    int blue =sprites[pixel+2];
+                    color = (red<<16 | green <<8 | blue);
+                    //color = 0xF0FF00;
+                    int temp = y*5;
+                    //printf("%d  %f\n", x, sy*4.5-temp);
+                    if(red!=255, green!=0, blue!=255)
                     {
-                        int ii = sy*4.5-temp;
-                        if(sy*4.5-temp>=300){ ii=80;}//draw point }
-                        if(tempx<0){tempx=10;}
-                        my_mlx_pixel_put2(tempx, ii);
-                        tempx++;
+                        while (temp <((y*5)+5))
+                        {  
+                            int tempx = x*5;
+                            while (tempx <= ((x*5)+5))
+                            {
+                                int ii = sy*4.5-temp;
+                                //if(sy*4.5-temp>=300){ ii=80;}//draw point }
+                                //if(tempx>320){tempx++; break;;}
+                                if(ii>320 || ii < 1){ ii=1;}
+                                //printf("%d\n", ii); 
+                                my_mlx_pixel_put2(tempx, ii);
+                                tempx++;
+                            }
+                            temp++;
+                        }
                     }
-                    temp++;
+                    t_y-=t_y_step; if(t_y<0){ t_y=0;}
                 }
             }
+            t_x+=t_x_step;
         }
     }
 }
@@ -450,9 +493,10 @@ void    drawSky()
 
 int    display(datamlx *vosid)
 {
-    if (gameState==4){printf("ok\n");}
-    if (Keys.a==1){ pa+=6*0.5; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));}//if(pa<  0){ pa+=2*pi;} pdx=cos(pa)*5; pdy=sin(pa)*5;}
-    if (Keys.d==1){ pa-=6*0.5; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));} //if(pa>2*pi){ pa-=2*pi;} pdx=cos(pa)*5; pdy=sin(pa)*5;}
+    if (gameState==4){printf("GAME OVER\nGAME OVER\nGAME OVER\nGAME OVER\nGAME OVER\n"); exit(0);}
+    gameState=0;
+    if (Keys.a==1){ pa+=8*0.8; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));}//if(pa<  0){ pa+=2*pi;} pdx=cos(pa)*5; pdy=sin(pa)*5;}
+    if (Keys.d==1){ pa-=8*0.8; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));} //if(pa>2*pi){ pa-=2*pi;} pdx=cos(pa)*5; pdy=sin(pa)*5;}
     
     int xo=0; if(pdx<0){ xo=-20;} else{ xo=20;}
     int yo=0; if(pdy<0){ yo=-20;} else{ yo=20;}
@@ -460,13 +504,13 @@ int    display(datamlx *vosid)
     int ipy=py/64.0, ipy_add_yo=(py+yo)/64.0, ipy_sub_yo=(py-yo)/64.0;
     if (Keys.w==1)
     {
-        if(mapW[ipy*mapX        + ipx_add_xo]==0){ px+=pdx*4;}
-        if(mapW[ipy_add_yo*mapX + ipx       ]==0){ py+=pdy*4;}
+        if(mapW[ipy*mapX        + ipx_add_xo]==0){ px+=pdx*7;}
+        if(mapW[ipy_add_yo*mapX + ipx       ]==0){ py+=pdy*7;}
     }
     if (Keys.s==1)
     {
-        if(mapW[ipy*mapX        + ipx_sub_xo]==0){ px-=pdx*3;}
-        if(mapW[ipy_sub_yo*mapX + ipx       ]==0){ py-=pdy*3;}
+        if(mapW[ipy*mapX        + ipx_sub_xo]==0){ px-=pdx*7;}
+        if(mapW[ipy_sub_yo*mapX + ipx       ]==0){ py-=pdy*7;}
     }
     clear(); 
     drawSky();
@@ -486,7 +530,7 @@ int    ButtonDown(int key, datamlx *soid)
         Keys.w=1;
     if (key == S) 
         Keys.s=1;
-    if(key==14)
+    if(key==14 && sp[0].state==0)
     {
         int xo=0; if(pdx<0){ xo=-20;} else{ xo=25;}
         int yo=0; if(pdy<0){ yo=-20;} else{ yo=25;}
@@ -524,7 +568,8 @@ void    init()
     sp[0].type=1; sp[0].state=1; sp[0].map=0; sp[0].x=1.5*64; sp[0].y=5*64;   sp[0].z=20; //key
     sp[1].type=2; sp[1].state=1; sp[1].map=1; sp[1].x=1.5*64; sp[1].y=4.5*64; sp[1].z= 0; //light 1
     sp[2].type=2; sp[2].state=1; sp[2].map=1; sp[2].x=3.5*64; sp[2].y=4.5*64; sp[2].z= 0; //light 2
-    sp[3].type=3; sp[3].state=1; sp[3].map=2; sp[3].x=2.5*64; sp[3].y=2*64;   sp[3].z=20; //enemy 
+    sp[3].type=3; sp[3].state=1; sp[3].map=2; sp[3].x=4.5*64; sp[3].y=4*64;   sp[3].z=20; //enemy 
+    sp[4].type=3; sp[4].state=1; sp[4].map=2; sp[4].x=2.5*64; sp[4].y=2*64;   sp[4].z=20; //enemy 
 }
 
 int main()

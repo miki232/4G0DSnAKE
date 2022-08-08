@@ -39,7 +39,7 @@ OBJ = $(SRC:.c=.o)
 
 RM = rm -f
 
-CC		=	clang -g
+CC		=	clang -O3
 CFLAGS	= 
 
 LIBS = -framework OpenGL -lm -framework AppKit
