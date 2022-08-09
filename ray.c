@@ -4,9 +4,9 @@
 #include <math.h>
 #include <stdlib.h>
 
-#include    "All_Textures.ppm"
-#include    "sky.ppm"
-#include    "sprites.ppm"
+#include    "texture/All_Textures.ppm"
+#include    "texture/sky.ppm"
+#include    "texture/sprites.ppm"
 
 float degToRad(float a) { return a*M_PI/180.0;}
 float FixAng(float a){ if(a>359){ a-=360;} if(a<0){ a+=360;} return a;}
@@ -106,20 +106,8 @@ int mapC[]=          //ceiling
 };
 int mapX=8,mapY=8,mapS=64;
 
-void    drawPlayer()
-{
-    mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img1, px, py);
-}
-
 int color = 0x00FFFF;
 ////Function to draw the pixel
-void    my_mlx_pixel_put(int x, int y)
-{
-    char    *dst;
-
-    dst=data.addr + (y * data.line_len + x * (data.bppx / 8));
-    *(unsigned int*)dst = color;
-}
 void    my_mlx_pixel_put2(int x, int y)
 {
     char    *dst;
@@ -127,27 +115,7 @@ void    my_mlx_pixel_put2(int x, int y)
     dst=data.addr2 + (y * data.line_len2 + x * (data.bppx2 / 8));
     *(unsigned int*)dst = color;
 }
-void    my_mlx_pixel_put3(int x, int y)
-{
-    char    *dst;
 
-    dst=data.addr3 + (y * data.line_len3 + x * (data.bppx3 / 8));
-    *(unsigned int*)dst = color;
-}
-void    drawplayer2(int x, int y)
-{
-    int temp = y;
-    while (temp <(y+16))
-    {
-        int tempx = x;
-        while (tempx <= (x+16))
-        {
-            my_mlx_pixel_put2(tempx*4, temp*4);
-            tempx++;
-        }
-        temp++;
-    }
-}
 void     rgb(float r, float g, float b)
 {
     hrgb.r = r*255;
@@ -160,64 +128,6 @@ int rgbtohex()
     return((int)hrgb.r<<16 | (int)hrgb.g<<8 | (int)hrgb.b);
 }
 
-void    drawpwalls(int x, int y, int size, float shade, float ty_Off, float *ty_step, float tx, int hmt)
-{
-    int temp = y;
-    float ty=ty_Off*(*ty_step)+hmt*32;
-    while (temp <(y +size))
-    {  
-        float c=All_Textures[(int)(ty)*32 + (int)(tx)]*shade;
-        if(hmt==0) { color=rgbtohex(); rgb(c    ,c/2.0, c/2.0);}
-        if(hmt==1) { color=rgbtohex(); rgb(c    ,c    , c/2.0);}
-        if(hmt==2) { color=rgbtohex(); rgb(c/2.0,c/2.0, c    );}
-        if(hmt==3) { color=rgbtohex(); rgb(c/2.0,c    , c/2.0);}
-        int tempx = x;
-        while (tempx <= (x+8))
-        {
-            my_mlx_pixel_put2(tempx, temp);
-            tempx++;
-        }
-        temp++;
-        ty+=*ty_step;
-    }
-    //mlx_put_image_to_window(data.mlx_ptr,data.win_ptr, data.img4, 512,0 );
-}
-
-void    drawfloors(int x, int y, int size, float ra)
-{
-    int temp = y;
-    float dy=size-(320/2.0), deg=degToRad(ra), raFix=cos(degToRad(FixAng(pa-ra)));
-    float tx=px/2 +cos(deg)*158*32/dy/raFix;
-    float ty=py/2 +sin(deg)*158*32/dy/raFix;
-    while (temp <(y +size))
-    {  
-        float c=All_Textures[((int)(ty)&31)*32 + ((int)(tx)&31)]*0.7;
-        rgb(c,c,c);
-        color=rgbtohex();
-        int tempx = x;
-        while (tempx <= (x+8))
-        {
-            my_mlx_pixel_put3(tempx, temp);
-            tempx++;
-        }
-        temp++;
-    }
-    mlx_put_image_to_window(data.mlx_ptr,data.win_ptr, data.img3, 512,100 );
-}
-void    drawtile(int x, int y)
-{
-    int temp = y;
-    while (temp <(y +tilesize-1))
-    {
-        int tempx = x+1;
-        while (tempx <= (x +tilesize-1))
-        {
-            my_mlx_pixel_put(tempx, temp);
-            tempx++;
-        }
-        temp++;
-    }
-}
 ///Clear the data img pointer
 void    clear()
 {
@@ -233,7 +143,8 @@ void    drawSprite()
     if(px<sp[0].x+30 && px>sp[0].x-30 && py<sp[0].y+30 && py>sp[0].y-30){ sp[0].state=0;}
     if(px<sp[3].x+30 && px>sp[3].x-30 && py<sp[3].y+30 && py>sp[3].y-30){ gameState=4;}
 
-    //enemy collision //loop for 2 enemy
+    //enemy collision 
+    //loop for 2 enemy
     for(int en=3;en<5;en++)
     {
         int spx=(int)sp[en].x>>6,  spy=(int)sp[en].y>>6;                  //normal grid position
@@ -251,7 +162,6 @@ void    drawSprite()
 
     for(s=0;s<5;s++)
     {
-        //if(px<sp[2].x+40 && px>sp[2].x-40 && py<sp[2].y+40 && py>sp[2].y-40){ sp[2].state=0;}
         float sx=sp[s].x-px; //temp float variables
         float sy=sp[s].y-py;
         float sz=sp[s].z;
@@ -273,7 +183,6 @@ void    drawSprite()
             t_y=31;
             for(y=0;y<scale;y++)
             {
-                //printf("%d\n", sp[s].state);
                 if(sp[s].state==1 && x>0 && x<120 && b<depth[x])
                 {
                      int pixel=((int)t_y*32+(int)t_x)*3+(sp[s].map*32*32*3);
@@ -281,9 +190,7 @@ void    drawSprite()
                     int green =sprites[pixel+1];
                     int blue =sprites[pixel+2];
                     color = (red<<16 | green <<8 | blue);
-                    //color = 0xF0FF00;
                     int temp = y*5;
-                    //printf("%d  %f\n", x, sy*4.5-temp);
                     if(red!=255, green!=0, blue!=255)
                     {
                         while (temp <((y*5)+5))
@@ -292,10 +199,7 @@ void    drawSprite()
                             while (tempx <= ((x*5)+5))
                             {
                                 int ii = sy*4.5-temp;
-                                //if(sy*4.5-temp>=300){ ii=80;}//draw point }
-                                //if(tempx>320){tempx++; break;;}
                                 if(ii>320 || ii < 1){ ii=1;}
-                                //printf("%d\n", ii); 
                                 my_mlx_pixel_put2(tempx, ii);
                                 tempx++;
                             }
@@ -310,33 +214,16 @@ void    drawSprite()
     }
 }
 
-
-void    drawMap2D()
-{
-    int x,y,xo,yo;
-    for(y=0;y<mapY;y++)
-    {
-        for(x=0;x<mapX;x++)
-        {
-            xo=x*mapS; yo=y*mapS;
-            if(mapW[y*mapX+x]>0){color=0xFFFFFF;}else{color = 0x0000F0;}
-            drawtile(xo, yo);
-            // if(mapW[y*mapX+x]==2){color=0xFF05F0;}
-            //     drawtile(xo, yo);
-        }
-    }
-    mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img,-0,0);
-}
-
 float   dist(float ax,float ay, float bx,float by, float ang)
 {
     return(sqrt((bx-ax)*(bx-ax)+(by-ay)*(by-ay)));
 }
+
 void  drawRadys3D()
 {
     int p = 8;
      int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH;
-    ra=FixAng(pa+30); //pa-DR*30; if(ra<0){ ra+=2*pi;} if(ra>2*pi){ ra-=2*pi;}
+    ra=FixAng(pa+30); 
     for(r=0;r<120;r++)
     {
         int vmt=0,hmt=0; //vertical and horizontal map texture num
@@ -372,11 +259,10 @@ void  drawRadys3D()
         }        
         color= 0x008000;
         float shade=1;
-        if(disV<disH){ hmt=vmt; shade=0.5; rx=vx; ry=vy; disH=disV; color=0xFF0000;} //if(mv==2) { color=0x0000F0;}}
-        //if(disH<disV){ rx=hx; ry=hy; disT=disH; color=0xA00000;} //if(mh==2) { color=0x0000A0;}}
+        if(disV<disH){ hmt=vmt; shade=0.5; rx=vx; ry=vy; disH=disV; color=0xFF0000;}
         //mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img2, rx, ry);
         ///----------DRAW WALL-----------------
-        float ca=FixAng(pa-ra); disH=disH*cos(degToRad(ca));//pa-ra; if(ca<0){ ca+=2*pi;} if(ca>2*pi){ ca-=2*pi;} disH=disH*cos(ca); //fix fisheye
+        float ca=FixAng(pa-ra); disH=disH*cos(degToRad(ca));
         int lineH=(mapS*322)/disH; 
         float ty_step=32.0/(float)lineH;
         float ty_Off=0;
@@ -384,23 +270,15 @@ void  drawRadys3D()
         depth[r]=disH;       
         float lineO=162-(lineH>>1);
 
-        float ty=ty_Off*ty_step;// +hmt*32;
+        float ty=ty_Off*ty_step;//
         float tx;
         if(shade==1){tx=(int)(rx/2.0)%32; if(ra>180){tx=31-tx;}}
         else        {tx=(int)(ry/2.0)%32; if(ra>90 && ra<270){ tx=31-tx;}}
-        //printf("%f\n", ra);
-        // drawfloors(r*8+530, lineH,lineO, ra);
-        //drawpwalls(r*8+530, lineO,lineH, shade, ty_Off, &ty_step, tx, hmt);
         
         //draw Walls
         int y;
         for(y=0;y<lineH;y++)
         {
-            // float c=All_Textures[(int)(ty)*32 + (int)(tx)]*shade;
-            // if(hmt==0) { color=rgbtohex(); rgb(c    ,c/2.0, c/2.0);}
-            // if(hmt==1) { color=rgbtohex(); rgb(c    ,c    , c/2.0);}
-            // if(hmt==2) { color=rgbtohex(); rgb(c/2.0,c/2.0, c    );}
-            // if(hmt==3) { color=rgbtohex(); rgb(c/2.0,c    , c/2.0);}
             int pixel=((int)ty*32+(int)tx)*3+(hmt*32*32*3);
             int red =All_Textures[pixel+0]*shade;
             int green =All_Textures[pixel+1]*shade;
@@ -425,8 +303,6 @@ void  drawRadys3D()
             int red =All_Textures[pixel+0]*0.7;
             int green =All_Textures[pixel+1]*0.7;
             int blue =All_Textures[pixel+2]*0.7;
-            //printf("%d\n", red);
-            //color = 0x000000;
             color = (red<<16 | green <<8 | blue );
             int tempx = r*5;
             while (tempx <((r*5)+5))
@@ -438,21 +314,21 @@ void  drawRadys3D()
 
             //draw ceiling
             mp=mapC[(int)(ty/32.0)*mapX+(int)(tx/32.0)]*32*32;
-            // // c=All_Textures[((int)(ty)&31)*32 + ((int)(tx)&31)+mp]*0.7;
-            // // rgb(c/2.0,c/1.2,c/2.0);
-            // // color=rgbtohex();
             pixel=(((int)(ty)&31)*32+((int)(tx)&31))*3+mp*3;
             red =All_Textures[pixel+0];
             green =All_Textures[pixel+1];
             blue =All_Textures[pixel+2];
-            //printf("%d\n", red);
-            //color = 0x000000;
             color = (red<<16 | green <<8 | blue );
-            tempx = r*5;
-            while (tempx <= ((r*5)+5))
-            {   
-                if(mp>0){ my_mlx_pixel_put2(tempx, 324-y);}
-                tempx++;
+            int ytemp =y;
+            while (ytemp<((y)+5))
+            {
+                tempx = r*5;
+                while (tempx <= ((r*5)+5))
+                {   
+                    if(mp>0){ my_mlx_pixel_put2(tempx, 325-ytemp);}
+                    tempx++;
+                }
+                ytemp++;
             }
         }
         mlx_put_image_to_window(data.mlx_ptr,data.win_ptr, data.img4, 0,0 );
@@ -495,8 +371,8 @@ int    display(datamlx *vosid)
 {
     if (gameState==4){printf("GAME OVER\nGAME OVER\nGAME OVER\nGAME OVER\nGAME OVER\n"); exit(0);}
     gameState=0;
-    if (Keys.a==1){ pa+=8*0.8; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));}//if(pa<  0){ pa+=2*pi;} pdx=cos(pa)*5; pdy=sin(pa)*5;}
-    if (Keys.d==1){ pa-=8*0.8; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));} //if(pa>2*pi){ pa-=2*pi;} pdx=cos(pa)*5; pdy=sin(pa)*5;}
+    if (Keys.a==1){ pa+=8*0.8; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));}
+    if (Keys.d==1){ pa-=8*0.8; pa=FixAng(pa); pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));}
     
     int xo=0; if(pdx<0){ xo=-20;} else{ xo=20;}
     int yo=0; if(pdy<0){ yo=-20;} else{ yo=20;}
@@ -560,9 +436,7 @@ void    init()
 {
     int pw=8;
     px = 150; py=400; pa=90;
-    data.img = mlx_xpm_file_to_image(data.mlx_ptr, "pg.xpm", &pw, &pw);
     data.img4 =mlx_new_image(data.mlx_ptr, 585, 322);
-    //data.addr = mlx_get_data_addr(data.img, &data.bppx, &data.line_len, &data.endian);
     data.addr2 = mlx_get_data_addr(data.img4, &data.bppx2, &data.line_len2, &data.endian2);
     pdx=cos(degToRad(pa)); pdy=-sin(degToRad(pa));
     sp[0].type=1; sp[0].state=1; sp[0].map=0; sp[0].x=1.5*64; sp[0].y=5*64;   sp[0].z=20; //key
@@ -577,7 +451,6 @@ int main()
     data.mlx_ptr = mlx_init();
     data.win_ptr = mlx_new_window(data.mlx_ptr, 585+1,322+1, "Ray1.1");
     init();
-    //display(&data);
     mlx_loop_hook(data.mlx_ptr, display, &data);
     mlx_hook(data.win_ptr, 2, 1L << 0, ButtonDown, &data);
     mlx_hook(data.win_ptr, 3, 1L << 1, ButtonUp, &data);
